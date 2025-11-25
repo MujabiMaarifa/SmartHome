@@ -14,6 +14,7 @@ gas_leak.
 home_owner_not_home.
 door_opened.
 window_broken.
+window_open.
 
 %sensor_facts_based_room_sensorType_value
 sensor(living_room, temperature(20)).
@@ -27,9 +28,11 @@ sensor(apartment, smoke_detected).
 device(heater, off).
 device(air_conditioner, off).
 device(light, off).
-device(gas_knob, off).
+device(gas_knob, on).
 device(door_sensor, off).
 device(fire_alarm, off).
+device(cctv, on).
+device(window_sensor, off).
 
 %heaterRules
 turn_on(heater, Room):-
@@ -52,12 +55,20 @@ turn_on(fire_alarm, Room):-
 	sensor(Room, temperature(T)),
 	T>25 .
 
-unlock_all_doors(door_sensor, Room):-
+open_(door_sensor, Room):-
 	turn_on(fire_alarm, Room).
+open_(window_sensor, Room):-
+	sensor(Room, smoke_detected).
 
 %turn_off_gas_knob
 turn_off(gas_knob, Room):-
 	sensor(Room, gas_leak).
+
+%send_message_to_intruder
+alert(Room, "Motion detected!! No one is at home"):-
+	sensor(Room, motion_detected),
+	device(cctv, on).
+	
 
 %helper_dynamic_updates
 set_device_state(Device, NewState):-

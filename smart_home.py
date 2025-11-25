@@ -17,6 +17,24 @@ def check_actions(room):
 
             list(prolog.query(f"set_device_state({device}, on)"))
 
+    doors_windows = list(prolog.query(f"open_(Device, {room})"))
+    if not doors_windows:
+        print("No actions required for doors and windows")
+    else:
+        for door_window in doors_windows:
+            device = door_window["Device"]
+            print(f"* Opening {device}")
+
+            list(prolog.query(f"set_device_state({device}, on)"))
+
+    gas_knob_on = list(prolog.query(f"turn_off(Device, {room})"))
+    if gas_knob_on:
+        device = gas_knob_on[0]["Device"]
+        print(f"* Closing {device}")
+        list(prolog.query(f"set_device_state({device}, off)"))
+    else:
+        print("No gas leak detected. Always consider tightening the gas knob after use")
+
 def show_devices():
     print("@__ Device states __@")
     for row in prolog.query("device(Device, State)"):
