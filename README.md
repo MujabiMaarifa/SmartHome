@@ -9,7 +9,7 @@ Tech used:
 NB: combining python and prolog forms hybrid rule based system
 
 Libraries used:
-   from pyswipl import Prolog - enhance connectivity of the python and prolog
+   from pyswip import Prolog - enhance connectivity of the python and prolog
 
 //Change the function calls with different arguments to check the different actions and states in the smart home system based rule
 //can also edit the facts and rules defined in the "smart_home.pl" 
@@ -18,7 +18,7 @@ How to run the program:
     git clone https://github.com/MujabiMaarifa/SmartHome
     
     -- ensure python library pyswipl is insatalled in the virtual environment using:
-        pip install pyswipl
+        pip install pyswip
 
     run the python file:
         python smart_home.py
